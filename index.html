@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ERC4907 Contract Interaction</title>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.6.9/dist/ethers.umd.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        button {
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>ERC4907 Contract Interaction</h1>
+
+    <!-- Connect MetaMask button -->
+    <button id="connectButton">Connect Wallet</button>
+
+    <!-- Copyright Registration Button (Mint NFT) -->
+    <div id="mintSection">
+        <input type="text" id="tokenUri" placeholder="Enter Token URI" />
+        <button id="mintButton">Mint NFT</button>
+    </div>
+
+    <!-- Buttons for Sell, Rent after Minting -->
+    <div id="mintedButtons">
+        <input type="number" id="price" placeholder="Enter Sale Price" />
+        <button id="sellButton">List for Sale</button>
+
+        <input type="number" id="rentalPrice" placeholder="Enter Rental Price" />
+        <input type="number" id="rentalDuration" placeholder="Enter Rental Duration (in seconds)" />
+        <button id="rentButton">List for Rent</button>
+    </div>
+
+    <!-- Buy Button (after Sell or Rent) -->
+    <div id="buySection">
+        <button id="buyButton">Buy or Rent NFT</button>
+    </div>
+
+    <script src="contract.js"></script>
+</body>
+
+</html>
