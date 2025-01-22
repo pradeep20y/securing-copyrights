@@ -1,0 +1,4 @@
+- name: Install Foundry
+  run: curl -L https://foundry.paradigm.xyz | bash
+- name: Setup Foundry
+  run: foundryup
