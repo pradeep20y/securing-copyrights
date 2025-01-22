@@ -15,4 +15,9 @@ contract ERC4907Test is Test {
         vm.prank(owner);
         erc4907 = new ERC4907("TestNFT", "TNFT");
     }
+
+    // Add test functions starting with 'test'
+    function testSetUser() public {
+        vm.startPrank(owner);
+    }
 }
