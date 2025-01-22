@@ -28,15 +28,17 @@
 
     <!-- Copyright Registration Button (Mint NFT) -->
     <div id="mintSection">
-        <input type="text" id="tokenUri" placeholder="Enter Token URI" />
-        <button id="mintButton">Mint NFT</button>
+        <input type="text" id="tokenUri" placeholder="Enter IPFS URI" />
+        <button id="mintButton">CopyRight Registration</button>
     </div>
 
     <!-- Buttons for Sell, Rent after Minting -->
     <div id="mintedButtons">
+        <input type="number" id="StokenId" placeholder="Enter BookID" />
         <input type="number" id="price" placeholder="Enter Sale Price" />
         <button id="sellButton">List for Sale</button>
 
+        <input type="number" id="RtokenId" placeholder="Enter BookID" />
         <input type="number" id="rentalPrice" placeholder="Enter Rental Price" />
         <input type="number" id="rentalDuration" placeholder="Enter Rental Duration (in seconds)" />
         <button id="rentButton">List for Rent</button>
@@ -44,7 +46,14 @@
 
     <!-- Buy Button (after Sell or Rent) -->
     <div id="buySection">
+        <input type="number" id="BtokenId" placeholder="Enter BookId" />
         <button id="buyButton">Buy or Rent NFT</button>
+    </div>
+
+    <div id="detailsSection">
+        <input type="number" id="viewTokenId" placeholder="Enter Token ID" />
+        <button id="viewDetailsButton">View Token Details</button>
+        <div id="detailsDisplay"></div>
     </div>
 
     <script src="contract.js"></script>

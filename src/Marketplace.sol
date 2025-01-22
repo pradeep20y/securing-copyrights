@@ -23,9 +23,13 @@ contract ERC4907 is ERC721, IERC4907 {
     mapping(uint256 => Listing) private tokenListings;
     mapping(uint256 => UserInfo) internal _users;
     mapping(uint256 => address) private copyrightRegis;
-    mapping(uint256 => address) private listInMarket;
 
-    constructor(string memory name_, string memory symbol_) ERC721(name_, symbol_) {
+    /*mapping(uint256 => address) private listInMarket;*/
+
+    constructor(
+        string memory name_,
+        string memory symbol_
+    ) ERC721(name_, symbol_) {
         s_tokenCounter = 1;
     }
 
@@ -48,12 +52,18 @@ contract ERC4907 is ERC721, IERC4907 {
     }
 
     // Set a listing for rent
-    function listForRent(uint256 tokenId, uint256 rentalPrice, uint64 rentalDuration) public {
+    function listForRent(
+        uint256 tokenId,
+        uint256 rentalPrice,
+        uint64 rentalDuration
+    ) public {
         address owner = ownerOf(tokenId);
         require(msg.sender == owner, "Only the owner can list it for rent");
 
         tokenListings[tokenId].rentalPrice = rentalPrice;
-        tokenListings[tokenId].rentalExpiry = rentalDuration + uint64(block.timestamp);
+        tokenListings[tokenId].rentalExpiry =
+            rentalDuration +
+            uint64(block.timestamp);
         tokenListings[tokenId].isForRent = true;
         tokenListings[tokenId].isForSale = false; // Ensure it's not for sale when listed for rent
     }
@@ -61,21 +71,23 @@ contract ERC4907 is ERC721, IERC4907 {
     // Buy or rent the NFT
     function buyOrRent(uint256 tokenId) public payable {
         Listing memory listing = tokenListings[tokenId];
-
+        require(msg.sender != _ownerOf(tokenId), "Owner cannot buy the token");
         if (listing.isForSale) {
             require(msg.value == listing.price, "Incorrect payment amount");
             address owner = ownerOf(tokenId);
             _transfer(owner, msg.sender, tokenId);
             payable(owner).transfer(msg.value); // Transfer the sale payment to the owner
         } else if (listing.isForRent) {
-            require(msg.value == listing.rentalPrice, "Incorrect rental payment amount");
+            require(
+                msg.value == listing.rentalPrice,
+                "Incorrect rental payment amount"
+            );
             address owner = ownerOf(tokenId);
             _users[tokenId].user = msg.sender;
             _users[tokenId].expires = listing.rentalExpiry;
             payable(owner).transfer(msg.value); // Transfer the rental payment to the owner
-        } else {
-            revert("NFT is neither for sale nor for rent");
         }
+        delete tokenListings[tokenId];
     }
 
     // Function to check the rental expiry
@@ -93,12 +105,18 @@ contract ERC4907 is ERC721, IERC4907 {
     }
 
     // Function to get the listing details of an NFT
-    function getListingDetails(uint256 tokenId) public view returns (Listing memory) {
+    function getListingDetails(
+        uint256 tokenId
+    ) public view returns (Listing memory) {
         return tokenListings[tokenId];
     }
 
     // Implement missing interface functions
-    function setUser(uint256 tokenId, address user, uint64 expires) external override {
+    function setUser(
+        uint256 tokenId,
+        address user,
+        uint64 expires
+    ) external override {
         /* if (_users[tokenId].user != address(0) && _users[tokenId].expires > block.timestamp) {
             revert("ERC4907: token is currently rented");
         }
@@ -110,7 +128,9 @@ contract ERC4907 is ERC721, IERC4907 {
         emit UpdateUser(tokenId, user, expires); */
     }
 
-    function userExpires(uint256 tokenId) external view override returns (uint256) {
+    function userExpires(
+        uint256 tokenId
+    ) external view override returns (uint256) {
         return _users[tokenId].expires;
     }
 }
